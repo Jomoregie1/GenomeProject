@@ -10,16 +10,16 @@ class TestReadTsv(unittest.TestCase):
         Test the read_tsv function to ensure it reads TSV data correctly as expected.
         """
 
-        # Step 1: Create a test TSV file with known data
+        # Create a test TSV file with known data
         test_tsv_data = "ID\tOriginal_Seq\tResult\n1\tACTTAAGCA\tACTTAAGCA\n"
         test_tsv_file = "test.tsv"
         with open(test_tsv_file, "w") as file:
             file.write(test_tsv_data)
 
-        # Step 2: Call the read_tsv function with the test TSV file
+        # Call the read_tsv function with the test TSV file
         result = read_tsv(test_tsv_file)
 
-        # Step 3: Compare the returned value against the expected value
+        # Compare the returned value against the expected value
         expected_result = [SequenceData(id=1, original_seq="ACTTAAGCA", edited_seq="ACTTAAGCA")]
         self.assertEqual(result, expected_result)
 
