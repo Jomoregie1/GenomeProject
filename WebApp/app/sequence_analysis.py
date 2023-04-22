@@ -1,6 +1,6 @@
 import csv
-from typing import List, Tuple
 from dataclasses import dataclass
+from typing import List
 
 
 @dataclass
@@ -49,3 +49,34 @@ def find_differences(data: List[SequenceData]) -> dict:
     return counts
 
 
+def determine_change(sequence_data: SequenceData) -> str:
+    original_seq, edited_seq = sequence_data.original_seq, sequence_data.edited_seq
+    i, j = 0, 0
+    deletion, insertion, mutation = 0, 0, 0
+
+    while i < len(original_seq) and j < len(edited_seq):
+        if original_seq[i] == edited_seq[j]:
+            i += 1
+            j += 1
+        elif len(original_seq) > len(edited_seq):
+            deletion += 1
+            i += 1
+        elif len(original_seq) < len(edited_seq):
+            insertion += 1
+            j += 1
+        else:
+            mutation += 1
+            i += 1
+            j += 1
+
+    change_message = ""
+    if deletion > 0:
+        change_message += f"{deletion} Deletion(s) detected. "
+    if insertion > 0:
+        change_message += f"{insertion} Insertion(s) detected. "
+    if mutation > 0:
+        change_message += f"{mutation} Mutation(s) detected. "
+    if not change_message:
+        change_message = "No change detected."
+
+    return change_message.strip()

@@ -1,6 +1,6 @@
 import unittest
 import os
-from app.sequence_analysis import read_tsv, SequenceData
+from WebApp.app.sequence_analysis import read_tsv, SequenceData
 
 
 class TestReadTsv(unittest.TestCase):
