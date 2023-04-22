@@ -50,6 +50,9 @@ def find_differences(data: List[SequenceData]) -> dict:
 
 
 def determine_change(sequence_data: SequenceData) -> str:
+    """
+    Determines the changes between an original and edited DNA sequence.
+    """
     original_seq, edited_seq = sequence_data.original_seq, sequence_data.edited_seq
     i, j = 0, 0
     deletion, insertion, mutation = 0, 0, 0

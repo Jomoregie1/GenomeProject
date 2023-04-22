@@ -1,10 +1,15 @@
 import unittest
 import os
+
 from WebApp.app.sequence_analysis import read_tsv, SequenceData
 
 
 class TestReadTsv(unittest.TestCase):
     def test_read_tsv(self):
+        """
+        Test the read_tsv function to ensure it reads TSV data correctly as expected.
+        """
+
         # Step 1: Create a test TSV file with known data
         test_tsv_data = "ID\tOriginal_Seq\tResult\n1\tACTTAAGCA\tACTTAAGCA\n"
         test_tsv_file = "test.tsv"
@@ -18,7 +23,7 @@ class TestReadTsv(unittest.TestCase):
         expected_result = [SequenceData(id=1, original_seq="ACTTAAGCA", edited_seq="ACTTAAGCA")]
         self.assertEqual(result, expected_result)
 
-        # Clean up: Remove the test TSV file
+        # Clean up: Removes the test TSV file
         os.remove(test_tsv_file)
 
 

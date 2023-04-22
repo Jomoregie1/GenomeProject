@@ -1,0 +1,39 @@
+/* General font style for the body */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Style for the main heading */
+h1 {
+    background-color: #4CAF50;
+    color: white;
+    padding: 20px;
+}
+
+/* Style for form elements */
+form {
+    margin: 20px;
+}
+
+/* Style for the chart container */
+#chart {
+    margin: 20px;
+}
+
+/* Style for the file input box container */
+.file-input-box {
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    padding: 4px 8px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+/* Style for the file input box container when hovered */
+.file-input-box:hover {
+    background-color: #e9ecef;
+    border-color: #adb5bd;
+}

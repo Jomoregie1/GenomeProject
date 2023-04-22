@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="A DNA sequence editor that allows you to compare and analyze changes in genomic sequences.">
+    <title>DNA Sequence Editor</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="my-4">DNA Sequence Editor</h1>
+      <form action="/" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="tsv_file">Select a TSV file:</label>
+          <div class="file-input-box">
+            <input type="file" id="tsv_file" name="tsv_file" accept=".tsv" class="form-control-file">
+          </div>
+        </div>
+        <input type="submit" value="Upload" class="btn btn-primary">
+      </form>
+      {% if data_and_changes %}
+        <h2 class="my-4">Results</h2>
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Original Sequence</th>
+              <th>Edited Sequence</th>
+              <th>Change</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for sequence_data, change_message in data_and_changes %}
+              <tr>
+                <td>{{ sequence_data.id }}</td>
+                <td>{{ sequence_data.original_seq }}</td>
+                <td>{{ sequence_data.edited_seq }}</td>
+                <td>{{ change_message }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endif %}
+      {% if counts %}
+        <button id="toggleChartBtn" class="btn btn-primary my-4">Show/Hide Chart</button>
+        <div id="chart" class="my-4" style="display: none;"></div>
+      {% endif %}
+      <script>
+        {% if counts %}
+          const data = [
+            {% for edit_type, count in counts.items() %}
+              { type: '{{ edit_type }}', count: {{ count }} },
+            {% endfor %}
+          ];
+          renderChart(data);
+          toggleChartVisibility("chart", "toggleChartBtn");
+        {% endif %}
+      </script>
+    </div>
+  </body>
+</html>
