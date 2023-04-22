@@ -1,0 +1,8 @@
+** SQL QUERY ** 
+
+SELECT p.project_id,p.project_name, COUNT(DISTINCT d.dept_id) AS'unique_departments'
+FROM Employee e
+INNER JOIN Department d ON e.dept_id = d.dept_id
+INNER JOIN Project p ON e.project_id = p.project_id
+GROUP BY p.project_id,p.project_name;
+
