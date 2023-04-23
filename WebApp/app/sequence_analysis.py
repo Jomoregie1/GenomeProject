@@ -1,7 +1,7 @@
 import csv
 import re
 from dataclasses import dataclass
-from typing import List
+from typing import List, Tuple
 from exceptions import InvalidDelimiterError
 
 
@@ -16,7 +16,7 @@ def detect_delimiter(header: str) -> str:
     """
     Detect the delimiter used in the header.
 
-    :param header: The header string.
+    param header: The header string.
     :return: The detected delimiter.
     :raises ValueError: If an unsupported delimiter is detected.
     """
@@ -32,7 +32,7 @@ def read_tsv(file_path: str) -> List[SequenceData]:
     """
     Reads the TSV file and returns a list of SequenceData objects.
 
-    :param file_path: The path to the TSV file.
+    param file_path: The path to the TSV file.
     :return: A list of SequenceData objects.
     """
     data = []
@@ -75,37 +75,14 @@ def read_tsv(file_path: str) -> List[SequenceData]:
     return data
 
 
-def find_differences(data: List[SequenceData]) -> dict:
-    """Finds differences among the sequences and reports the counts of each edit type."""
-    counts = {"deletion": 0, "insertion": 0, "mutation": 0}
-
-    for sequence_data in data:
-        original_seq, edited_seq = sequence_data.original_seq, sequence_data.edited_seq
-        i, j = 0, 0
-
-        while i < len(original_seq) and j < len(edited_seq):
-            if original_seq[i] == edited_seq[j]:
-                i += 1
-                j += 1
-            elif len(original_seq) > len(edited_seq):
-                counts["deletion"] += 1
-                i += 1
-            elif len(original_seq) < len(edited_seq):
-                counts["insertion"] += 1
-                j += 1
-            else:
-                counts["mutation"] += 1
-                i += 1
-                j += 1
-
-    return counts
-
-
-def determine_change(sequence_data: SequenceData) -> str:
+def compute_differences(original_seq: str, edited_seq: str) -> Tuple[int, int, int]:
     """
-    Determines the changes between an original and edited DNA sequence.
+    Computes the differences between two sequences.
+
+    param original_seq: The original DNA sequence.
+    param edited_seq: The edited DNA sequence.
+    :return: A tuple containing counts of deletions, insertions, and mutations.
     """
-    original_seq, edited_seq = sequence_data.original_seq, sequence_data.edited_seq
     i, j = 0, 0
     deletion, insertion, mutation = 0, 0, 0
 
@@ -123,6 +100,38 @@ def determine_change(sequence_data: SequenceData) -> str:
             mutation += 1
             i += 1
             j += 1
+
+    return deletion, insertion, mutation
+
+
+def find_differences(data: List[SequenceData]) -> dict:
+    """
+    Finds differences among the sequences and reports the counts of each edit type.
+
+    param data: A list of SequenceData objects.
+    :return: A dictionary containing the counts of each edit type.
+    """
+    counts = {"deletion": 0, "insertion": 0, "mutation": 0}
+
+    for sequence_data in data:
+        original_seq, edited_seq = sequence_data.original_seq, sequence_data.edited_seq
+        deletion, insertion, mutation = compute_differences(original_seq, edited_seq)
+        counts["deletion"] += deletion
+        counts["insertion"] += insertion
+        counts["mutation"] += mutation
+
+    return counts
+
+
+def determine_change(sequence_data: SequenceData) -> str:
+    """
+    Determines the changes between an original and edited DNA sequence.
+
+    param sequence_data: A SequenceData object.
+    :return: A string describing the change.
+    """
+    original_seq, edited_seq = sequence_data.original_seq, sequence_data.edited_seq
+    deletion, insertion, mutation = compute_differences(original_seq, edited_seq)
 
     change_message = ""
     if deletion > 0:

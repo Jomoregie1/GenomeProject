@@ -6,7 +6,9 @@ from WebApp.app.sequence_analysis import read_tsv, SequenceData, detect_delimite
 class TestReadTsv(unittest.TestCase):
     def test_read_tsv(self):
         """
-        Test the read_tsv function to ensure it reads TSV data correctly as expected.
+        Test the read_tsv function to ensure it reads TSV data correctly and creates a list
+        of SequenceData objects as expected.
+
         """
 
         # Create a test TSV file with known data
@@ -27,6 +29,15 @@ class TestReadTsv(unittest.TestCase):
 
 
 class TestDetectDelimiter(unittest.TestCase):
+    """
+        Test suite for the detect_delimiter function, which checks if the function
+        correctly detects the delimiter used in the header string.
+
+        Tests include detecting:
+        - Tab delimiter
+        - Space delimiter
+        - Unsupported delimiter
+    """
 
     def test_detect_tab_delimiter(self):
         header = "ID\tOriginal_Seq\tResult"
