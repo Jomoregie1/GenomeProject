@@ -17,7 +17,7 @@ A web-based tool to analyse and visualise DNA sequence edits. Users upload a TSV
 
 ## Installation
 
-1. Clone the repository to your local machine: git clone https://github.com/your-username/dna-sequence-editor.git
+1. Clone the repository to your local machine: git clone https://github.com/Jomoregie1/GenomeProject.git
 2. Navigate to the project directory
 3. Install the required dependencies
 4. Run the Flask application
