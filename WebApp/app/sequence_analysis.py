@@ -17,8 +17,11 @@ def read_tsv(file_path: str) -> List[SequenceData]:
         tsv_reader = csv.reader(file, delimiter='\t')
         next(tsv_reader)  # Skip the header row
         for row in tsv_reader:
-            id, original_seq, edited_seq = int(row[0]), row[1], row[2]
-            data.append(SequenceData(id, original_seq, edited_seq))
+            try:
+                id, original_seq, edited_seq = int(row[0]), row[1], row[2]
+                data.append(SequenceData(id, original_seq, edited_seq))
+            except (ValueError, IndexError):
+                print(f"Error processing row: {row}")
 
     return data
 
