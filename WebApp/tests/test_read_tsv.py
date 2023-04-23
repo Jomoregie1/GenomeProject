@@ -1,7 +1,6 @@
 import unittest
 import os
-
-from WebApp.app.sequence_analysis import read_tsv, SequenceData
+from WebApp.app.sequence_analysis import read_tsv, SequenceData, detect_delimiter,InvalidDelimiterError
 
 
 class TestReadTsv(unittest.TestCase):
@@ -25,6 +24,22 @@ class TestReadTsv(unittest.TestCase):
 
         # Clean up: Removes the test TSV file
         os.remove(test_tsv_file)
+
+
+class TestDetectDelimiter(unittest.TestCase):
+
+    def test_detect_tab_delimiter(self):
+        header = "ID\tOriginal_Seq\tResult"
+        self.assertEqual(detect_delimiter(header), '\t')
+
+    def test_detect_space_delimiter(self):
+        header = "ID Original_Seq Result"
+        self.assertEqual(detect_delimiter(header), r'\s+')
+
+    def test_detect_unsupported_delimiter(self):
+        header = "ID,Original_Seq,Result"
+        with self.assertRaises(InvalidDelimiterError):
+            detect_delimiter(header)
 
 
 if __name__ == "__main__":

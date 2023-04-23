@@ -1,6 +1,8 @@
 import csv
+import re
 from dataclasses import dataclass
 from typing import List
+from exceptions import InvalidDelimiterError
 
 
 @dataclass
@@ -10,18 +12,65 @@ class SequenceData:
     edited_seq: str
 
 
+def detect_delimiter(header: str) -> str:
+    """
+    Detect the delimiter used in the header.
+
+    :param header: The header string.
+    :return: The detected delimiter.
+    :raises ValueError: If an unsupported delimiter is detected.
+    """
+    if '\t' in header:
+        return '\t'
+    elif re.match(r"ID\s+Original_Seq\s+Result", header):
+        return r'\s+'
+    else:
+        raise InvalidDelimiterError("Unsupported delimiter detected in the header.")
+
+
 def read_tsv(file_path: str) -> List[SequenceData]:
-    """Reads the TSV file and returns a list of SequenceData objects."""
+    """
+    Reads the TSV file and returns a list of SequenceData objects.
+
+    :param file_path: The path to the TSV file.
+    :return: A list of SequenceData objects.
+    """
     data = []
+
     with open(file_path, "r") as file:
-        tsv_reader = csv.reader(file, delimiter='\t')
-        next(tsv_reader)  # Skip the header row
-        for row in tsv_reader:
-            try:
-                id, original_seq, edited_seq = int(row[0]), row[1], row[2]
-                data.append(SequenceData(id, original_seq, edited_seq))
-            except (ValueError, IndexError):
-                print(f"Error processing row: {row}")
+        # Read header and detect delimiter
+        header = file.readline()
+        delimiter = detect_delimiter(header)
+
+        file.seek(0)  # Reset file pointer to the start
+
+        if delimiter == r'\s+':
+            # Handle space-separated values using regular expressions
+            for line in file:
+                if not line.strip():
+                    continue  # Skip empty lines
+
+                # Split line using delimiter
+                row = re.split(delimiter, line.strip())
+
+                # Extract data and append to the list
+                try:
+                    id, original_seq, edited_seq = int(row[0]), row[1], row[2]
+                    data.append(SequenceData(id, original_seq, edited_seq))
+                except (ValueError, IndexError):
+                    print(f"Error processing row: {row}")
+        else:
+            # Handle tab-separated values using csv.reader
+            tsv_reader = csv.reader(file, delimiter=delimiter)
+            next(tsv_reader)  # Skip the header row
+
+            for row in tsv_reader:
+                # Extract data and append to the list
+                try:
+                    id, original_seq, edited_seq = int(row[0]), row[1], row[2]
+                    data.append(SequenceData(id, original_seq, edited_seq))
+                except (ValueError, IndexError):
+                    print(f"Error processing row: {row}")
 
     return data
 
