@@ -3,6 +3,7 @@ import re
 from dataclasses import dataclass
 from typing import List, Tuple
 from exceptions import InvalidDelimiterError
+import logging
 
 
 @dataclass
@@ -58,7 +59,7 @@ def read_tsv(file_path: str) -> List[SequenceData]:
                     id, original_seq, edited_seq = int(row[0]), row[1], row[2]
                     data.append(SequenceData(id, original_seq, edited_seq))
                 except (ValueError, IndexError):
-                    print(f"Error processing row: {row}")
+                    logging.error(f"Error processing row: {row}")
         else:
             # Handle tab-separated values using csv.reader
             tsv_reader = csv.reader(file, delimiter=delimiter)
@@ -70,7 +71,7 @@ def read_tsv(file_path: str) -> List[SequenceData]:
                     id, original_seq, edited_seq = int(row[0]), row[1], row[2]
                     data.append(SequenceData(id, original_seq, edited_seq))
                 except (ValueError, IndexError):
-                    print(f"Error processing row: {row}")
+                    logging.error(f"Error processing row: {row}")
 
     return data
 
