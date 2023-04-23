@@ -1,6 +1,5 @@
-# DNA Sequence Editor
-
-DNA Sequence Editor is a web application that allows users to compare and analyze changes in genomic sequences. Users can upload a TSV file containing DNA sequence data, and the application will display the differences between the original and edited sequences.
+# Genome Project
+A web-based tool to analyse and visualise DNA sequence edits. Users upload a TSV file with original and edited sequences, the app identifies edit types (deletion, insertion, mutation), and displays counts and color-coded visualisations. Built with Python, Flask, and D3.js.
 
 ## Table of Contents
 
@@ -8,9 +7,6 @@ DNA Sequence Editor is a web application that allows users to compare and analyz
 - [Installation](#installation)
 - [Usage](#usage)
 - [Dependencies](#dependencies)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
 
 ## Features
 
@@ -21,7 +17,7 @@ DNA Sequence Editor is a web application that allows users to compare and analyz
 
 ## Installation
 
-1. Clone the repository to your local machine: git clone https://github.com/your-username/dna-sequence-editor.git
+1. Clone the repository to your local machine: git clone https://github.com/Jomoregie1/GenomeProject.git
 2. Navigate to the project directory
 3. Install the required dependencies
 4. Run the Flask application
@@ -39,5 +35,3 @@ DNA Sequence Editor is a web application that allows users to compare and analyz
 - Flask
 - D3.js
 - Bootstrap
-
-
