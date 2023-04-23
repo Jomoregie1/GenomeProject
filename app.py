@@ -1,5 +1,5 @@
 from flask import render_template, request
-from sequence_analysis import read_tsv, find_differences, determine_change
+from WebApp.app.sequence_analysis import read_tsv, find_differences, determine_change
 from WebApp.app import create_app
 import os
 import tempfile
