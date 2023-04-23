@@ -1,5 +1,5 @@
 # Genome Project
-A web-based tool to analyze and visualize DNA sequence edits. Users upload a TSV file with original and edited sequences, the app identifies edit types (deletion, insertion, mutation), and displays counts and color-coded visualizations. Built with Python, Flask, and D3.js.
+A web-based tool to analyse and visualise DNA sequence edits. Users upload a TSV file with original and edited sequences, the app identifies edit types (deletion, insertion, mutation), and displays counts and color-coded visualisations. Built with Python, Flask, and D3.js.
 
 ## Table of Contents
 
